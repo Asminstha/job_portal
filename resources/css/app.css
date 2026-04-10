@@ -4,11 +4,17 @@
 
 @layer base {
   html {
-    @apply antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
-    @apply bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100;
+    background-color: rgb(249 250 251);
+    color: rgb(17 24 39);
     transition: background-color 0.2s, color 0.2s;
+  }
+  .dark body {
+    background-color: rgb(3 7 18);
+    color: rgb(243 244 246);
   }
 }
 
@@ -17,7 +23,7 @@
     @apply inline-flex items-center px-4 py-2 bg-brand-600 hover:bg-brand-700
            text-white text-sm font-medium rounded-lg transition-colors duration-150
            focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2
-           dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed;
+           disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-secondary {
     @apply inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800
@@ -34,7 +40,7 @@
     @apply block w-full rounded-lg border border-gray-300 dark:border-gray-600
            bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100
            placeholder-gray-400 dark:placeholder-gray-500
-           px-3 py-2 text-sm focus:border-brand-500 focus:ring-brand-500
+           px-3 py-2 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500
            focus:outline-none transition-colors;
   }
   .form-label {
@@ -47,21 +53,19 @@
     @apply bg-white dark:bg-gray-900 rounded-xl border border-gray-200
            dark:border-gray-800 shadow-sm;
   }
-  .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
-  }
-  .badge-green  { @apply badge bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200; }
-  .badge-yellow { @apply badge bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200; }
-  .badge-blue   { @apply badge bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200; }
-  .badge-red    { @apply badge bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200; }
-  .badge-gray   { @apply badge bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300; }
-  .badge-purple { @apply badge bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200; }
+  .badge          { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium; }
+  .badge-green    { @apply badge bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200; }
+  .badge-yellow   { @apply badge bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200; }
+  .badge-blue     { @apply badge bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200; }
+  .badge-red      { @apply badge bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200; }
+  .badge-gray     { @apply badge bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300; }
+  .badge-purple   { @apply badge bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200; }
   .sidebar-link {
     @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
            text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800
            hover:text-gray-900 dark:hover:text-white transition-colors;
   }
   .sidebar-link.active {
-    @apply bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300;
+    @apply bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300;
   }
 }
