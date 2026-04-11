@@ -21,10 +21,10 @@ class Application extends Model
         'read_at'           => 'datetime',
     ];
 
-    public function job(): BelongsTo
-    {
-        return $this->belongsTo(Job::class);
-    }
+   public function job(): BelongsTo
+{
+    return $this->belongsTo(Job::class);
+}
 
     public function user(): BelongsTo
     {

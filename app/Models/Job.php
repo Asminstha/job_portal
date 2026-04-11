@@ -12,7 +12,8 @@ class Job extends Model
 {
     use BelongsToCompany;
 
-    protected $table = 'job_listings';
+    protected $table = 'job_postings';
+
     protected $fillable = [
         'company_id','created_by','category_id','title','slug',
         'description','requirements','benefits','type','location_type',
@@ -22,14 +23,13 @@ class Job extends Model
     ];
 
     protected $casts = [
-        'is_featured'   => 'boolean',
-        'salary_hidden' => 'boolean',
-        'featured_until'=> 'datetime',
-        'expires_at'    => 'datetime',
-        'published_at'  => 'datetime',
+        'is_featured'    => 'boolean',
+        'salary_hidden'  => 'boolean',
+        'featured_until' => 'datetime',
+        'expires_at'     => 'datetime',
+        'published_at'   => 'datetime',
     ];
 
-    // ── Auto-generate slug ─────────────────────────────────────
     protected static function boot(): void
     {
         parent::boot();
@@ -46,7 +46,11 @@ class Job extends Model
         $base  = Str::slug($title);
         $slug  = $base;
         $count = 1;
-        while (static::withoutGlobalScopes()->where('slug', $slug)->exists()) {
+        while (
+            static::withoutGlobalScopes()
+                ->where('slug', $slug)
+                ->exists()
+        ) {
             $slug = $base . '-' . $count++;
         }
         return $slug;
@@ -98,10 +102,12 @@ class Job extends Model
         if ($this->salary_hidden) return 'Negotiable';
         if (! $this->salary_min)  return 'Not specified';
 
-        $min = number_format($this->salary_min);
-        $max = $this->salary_max ? number_format($this->salary_max) : null;
+        $min   = number_format($this->salary_min);
+        $max   = $this->salary_max ? number_format($this->salary_max) : null;
+        $range = $max
+            ? "{$this->salary_currency} {$min} – {$max}"
+            : "{$this->salary_currency} {$min}+";
 
-        $range = $max ? "{$this->salary_currency} {$min} – {$max}" : "{$this->salary_currency} {$min}+";
         return $range . ' / ' . $this->salary_period;
     }
 
@@ -120,10 +126,10 @@ class Job extends Model
     public function locationLabel(): string
     {
         return match($this->location_type) {
-            'remote'  => 'Remote',
-            'hybrid'  => 'Hybrid',
-            'onsite'  => $this->city ?? 'On-site',
-            default   => ucfirst($this->location_type),
+            'remote' => 'Remote',
+            'hybrid' => 'Hybrid',
+            'onsite' => $this->city ?? 'On-site',
+            default  => ucfirst($this->location_type),
         };
     }
 

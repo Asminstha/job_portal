@@ -8,7 +8,6 @@ trait BelongsToCompany
 {
     protected static function bootBelongsToCompany(): void
     {
-        // Auto-set company_id when creating a record
         static::creating(function ($model) {
             if (
                 auth()->check() &&
@@ -19,7 +18,6 @@ trait BelongsToCompany
             }
         });
 
-        // Auto-scope all queries to current company (not for admin)
         static::addGlobalScope('company', function (Builder $builder) {
             if (
                 auth()->check() &&
