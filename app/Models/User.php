@@ -73,13 +73,12 @@ class User extends Authenticatable
     }
 
     // ── Helpers ────────────────────────────────────────────────
-    public function avatarUrl(): string
-    {
-        return $this->avatar
-            ? asset('storage/' . $this->avatar)
-            : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=2563eb&color=fff&size=64';
-    }
-
+   public function avatarUrl(): string
+{
+    return $this->avatar
+        ? asset('storage/' . $this->avatar)
+        : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=7c3aed&color=fff&size=128';
+}
     public function dashboardRoute(): string
     {
         return match($this->role) {

@@ -33,15 +33,19 @@
 {{-- Filter by job --}}
 @if(!$job)
 <div class="mb-4">
-    <form method="GET" class="flex gap-3">
-        <select name="job_id" class="form-input w-64"
-                onchange="window.location.href='{{ route('company.applications.index', '') }}/' + this.value + '{{ request()->has('status') ? '?status=' . request('status') : '' }}'">
+    <div class="flex gap-3">
+        <select class="form-input w-64"
+                onchange="
+                    var jobId = this.value;
+                    var status = '{{ request()->has('status') ? '?status=' . request('status') : '' }}';
+                    window.location.href = '/dashboard/applications/' + jobId + status;
+                ">
             <option value="all">All Jobs</option>
             @foreach($jobs as $j)
                 <option value="{{ $j->id }}">{{ $j->title }}</option>
             @endforeach
         </select>
-    </form>
+    </div>
 </div>
 @endif
 
