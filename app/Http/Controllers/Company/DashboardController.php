@@ -32,7 +32,7 @@ class DashboardController extends Controller
                                        ->where('status', 'hired')->count(),
         ];
 
-        $recentApplications = Application::with(['job', 'user'])
+        $recentApplications = Application::with(['job', 'user.seekerProfile'])
             ->withoutGlobalScopes()
             ->where('company_id', $company->id)
             ->latest()

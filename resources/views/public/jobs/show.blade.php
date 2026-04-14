@@ -1,4 +1,12 @@
 @extends('layouts.public')
+@section('seo')
+    <x-seo
+        title="{{ $job->title }} at {{ $job->company->name }} — JobsNepal"
+        description="{{ Str::limit($job->description, 155) }}"
+        type="article"
+        image="{{ $job->company->logo ? asset('storage/'.$job->company->logo) : null }}"
+    />
+@endsection
 @section('title', $job->title . ' at ' . $job->company->name)
 
 @section('content')

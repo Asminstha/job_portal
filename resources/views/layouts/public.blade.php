@@ -8,13 +8,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', config('app.name'))</title>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
+    @yield('seo')
+
+    @unless (View::hasSection('seo'))
+        <title>@yield('title', config('app.name')) — Find Jobs in Nepal</title>
+        <meta name="description"
+            content="JobsNepal is Nepal's modern job portal. Find jobs from top companies. Free for job seekers.">
+    @endunless
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
-    <style>[x-cloak] { display: none !important; }</style>
 </head>
 
 <body class="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -142,7 +153,7 @@
                                           hover:bg-gray-50 dark:hover:bg-gray-800">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0
-                                                             00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                                                 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                                         </svg>
                                         Company Dashboard
                                     </a>
@@ -176,7 +187,7 @@
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3
-                                                                 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                                     3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                             </svg>
                                             Sign out
                                         </button>

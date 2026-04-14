@@ -35,3 +35,19 @@ Route::post('/logout', [AuthController::class, 'logout'])
 require __DIR__ . '/company.php';
 require __DIR__ . '/seeker.php';
 require __DIR__ . '/admin.php';
+
+
+// SEO
+Route::get('/robots.txt', function () {
+    $content = "User-agent: *\nAllow: /\n\nDisallow: /admin\nDisallow: /dashboard\nDisallow: /my\n\nSitemap: " . config('app.url') . "/sitemap.xml";
+    return response($content, 200)->header('Content-Type', 'text/plain');
+});
+
+Route::get('/sitemap.xml', function () {
+    $jobs      = \App\Models\Job::withoutGlobalScopes()
+                    ->where('status', 'active')->get();
+    $companies = \App\Models\Company::where('is_active', true)->get();
+
+    return response()->view('sitemap', compact('jobs', 'companies'))
+        ->header('Content-Type', 'application/xml');
+});

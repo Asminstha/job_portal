@@ -1,4 +1,10 @@
 @extends('layouts.public')
+@section('seo')
+    <x-seo
+        title="Browse Jobs in Nepal — JobsNepal"
+        description="Find full-time, part-time, remote, and internship jobs in Nepal. Filter by category, location, salary, and experience level."
+    />
+@endsection
 @section('title', 'Browse Jobs in Nepal')
 
 @section('content')
