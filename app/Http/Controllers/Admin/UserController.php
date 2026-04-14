@@ -35,15 +35,17 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'roleCounts'));
     }
 
-    public function toggle(User $user): RedirectResponse
-    {
-        if ($user->isAdmin()) {
-            return back()->with('error', 'Cannot deactivate admin accounts.');
-        }
+    public function toggle(string $id): RedirectResponse
+{
+    $user = User::findOrFail($id);
 
-        $user->update(['is_active' => ! $user->is_active]);
-
-        $status = $user->is_active ? 'activated' : 'deactivated';
-        return back()->with('success', "User {$user->name} has been {$status}.");
+    if ($user->isAdmin()) {
+        return back()->with('error', 'Cannot deactivate admin accounts.');
     }
+
+    $user->update(['is_active' => ! $user->is_active]);
+    $status = $user->is_active ? 'activated' : 'deactivated';
+
+    return back()->with('success', "User {$user->name} has been {$status}.");
+}
 }

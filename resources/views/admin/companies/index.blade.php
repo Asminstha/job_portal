@@ -50,7 +50,7 @@
                             <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }}"
                                  class="w-9 h-9 rounded-lg object-cover border border-gray-200 dark:border-gray-700 flex-shrink-0">
                             <div>
-                                <a href="{{ route('admin.companies.show', $company) }}"
+                                <a href="{{ route('admin.companies.show', $company->id) }}"
                                    class="font-medium text-gray-900 dark:text-white hover:text-brand-600 block">
                                     {{ $company->name }}
                                 </a>
@@ -74,7 +74,7 @@
                                         rounded-xl shadow-lg py-2 min-w-36">
                                 @foreach($plans as $plan)
                                 <form method="POST"
-                                      action="{{ route('admin.companies.plan', $company) }}">
+                                      action="{{ route('admin.companies.plan', $company->id) }}">
                                     @csrf @method('PATCH')
                                     <input type="hidden" name="plan_id" value="{{ $plan->id }}">
                                     <button type="submit"
@@ -114,10 +114,10 @@
                     </td>
                     <td class="px-5 py-4">
                         <div class="flex items-center gap-2 justify-end">
-                            <a href="{{ route('admin.companies.show', $company) }}"
+                            <a href="{{ route('admin.companies.show', $company->id) }}"
                                class="btn-secondary text-xs py-1 px-2.5">View</a>
                             <form method="POST"
-                                  action="{{ route('admin.companies.toggle', $company) }}">
+                                  action="{{ route('admin.companies.toggle', $company->id) }}">
                                 @csrf @method('PATCH')
                                 <button type="submit"
                                         class="text-xs px-2.5 py-1 rounded-lg border transition-colors

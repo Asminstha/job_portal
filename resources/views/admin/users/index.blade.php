@@ -94,7 +94,7 @@
                     </td>
                     <td class="px-5 py-4">
                         @if(!$user->isAdmin())
-                        <form method="POST" action="{{ route('admin.users.toggle', $user) }}">
+                        <form method="POST" action="{{ route('admin.users.toggle', $user->id) }}">
                             @csrf @method('PATCH')
                             <button type="submit"
                                     class="text-xs px-2.5 py-1 rounded-lg border transition-colors

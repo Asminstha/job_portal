@@ -9,6 +9,7 @@ use App\Models\Job;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Services\NotificationService;
 
 class ApplicationController extends Controller
 {
@@ -104,6 +105,9 @@ class ApplicationController extends Controller
             'to_status'      => $newStatus,
             'note'           => $request->note,
         ]);
+        // Notify seeker of status change
+        app(NotificationService::class)->applicationStatusChanged($application->fresh());
+
 
         return back()->with('success', 'Application status updated to ' . ucfirst($newStatus) . '.');
     }

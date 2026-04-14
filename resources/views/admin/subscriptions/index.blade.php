@@ -85,7 +85,7 @@
                         @if($sub->status === 'pending')
                         <div class="flex gap-2">
                             <form method="POST"
-                                  action="{{ route('admin.subscriptions.approve', $sub) }}">
+                                  action="{{ route('admin.subscriptions.approve', $sub->id) }}">
                                 @csrf @method('PATCH')
                                 <button type="submit"
                                         class="text-xs px-2.5 py-1 rounded-lg border
@@ -96,7 +96,7 @@
                                 </button>
                             </form>
                             <form method="POST"
-                                  action="{{ route('admin.subscriptions.reject', $sub) }}">
+                                  action="{{ route('admin.subscriptions.reject', $sub->id) }}">
                                 @csrf @method('PATCH')
                                 <button type="submit"
                                         class="text-xs px-2.5 py-1 rounded-lg border

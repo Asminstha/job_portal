@@ -10,6 +10,7 @@ use App\Models\SavedJob;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Services\NotificationService;
 
 class JobController extends Controller
 {
@@ -155,7 +156,14 @@ class JobController extends Controller
         ]);
 
         $job->increment('applications_count');
+// Send notification to company
+app(NotificationService::class)->applicationReceived(
+    Application::where('job_id', $job->id)
+        ->where('user_id', $user->id)
+        ->latest()
+        ->first()
+);
 
-        return back()->with('success', 'Application submitted successfully! Good luck!');
+return back()->with('success', 'Application submitted successfully! Good luck!');
     }
 }

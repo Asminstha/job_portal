@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Services\NotificationService;
 
 class SubscriptionController extends Controller
 {
@@ -27,30 +28,37 @@ class SubscriptionController extends Controller
         return view('admin.subscriptions.index', compact('subscriptions', 'stats'));
     }
 
-    public function approve(Subscription $subscription): RedirectResponse
-    {
-        $subscription->update([
-            'status'               => 'active',
-            'current_period_start' => now(),
-            'current_period_end'   => $subscription->billing_cycle === 'yearly'
-                                        ? now()->addYear()
-                                        : now()->addMonth(),
-        ]);
+    public function approve(string $id): RedirectResponse
+{
+    $subscription = Subscription::findOrFail($id);
 
-        $subscription->company->update([
-            'subscription_status' => 'active',
-            'plan_id'             => $subscription->plan_id,
-        ]);
+    $subscription->update([
+        'status'               => 'active',
+        'current_period_start' => now(),
+        'current_period_end'   => $subscription->billing_cycle === 'yearly'
+                                    ? now()->addYear()
+                                    : now()->addMonth(),
+    ]);
 
-        return back()->with('success',
-            "Subscription approved for {$subscription->company->name}.");
-    }
+    $subscription->company->update([
+        'subscription_status' => 'active',
+        'plan_id'             => $subscription->plan_id,
+    ]);
 
-    public function reject(Subscription $subscription): RedirectResponse
-    {
-        $subscription->update(['status' => 'cancelled']);
+// Notify company
+    app(NotificationService::class)->subscriptionActivated($subscription->fresh());
 
-        return back()->with('success',
-            "Subscription rejected for {$subscription->company->name}.");
-    }
+
+    return back()->with('success',
+        "Subscription approved for {$subscription->company->name}.");
+}
+
+public function reject(string $id): RedirectResponse
+{
+    $subscription = Subscription::findOrFail($id);
+    $subscription->update(['status' => 'cancelled']);
+
+    return back()->with('success',
+        "Subscription rejected for {$subscription->company->name}.");
+}
 }

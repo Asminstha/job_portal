@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use App\Services\NotificationService;
 
 class AuthController extends Controller
 {
@@ -97,7 +98,15 @@ class AuthController extends Controller
                 ]);
 
                 Auth::login($user);
+                return $company;
             });
+
+// Notify admin of new company
+app(NotificationService::class)->newCompanyRegistered(
+    Company::where('email', $request->email)->first()
+);
+
+
         } catch (\Exception $e) {
             return back()
                 ->withInput()

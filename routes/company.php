@@ -41,4 +41,8 @@ Route::prefix('dashboard')
 
         // Subscription
         Route::get('/subscription', [SubscriptionController::class, 'index'])->name('subscription.index');
+
+// Subscription upgrade request
+        Route::post('/subscription/upgrade', [SubscriptionController::class, 'requestUpgrade'])
+    ->name('subscription.upgrade');
     });

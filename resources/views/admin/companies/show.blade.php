@@ -129,7 +129,7 @@
         <div class="card p-5">
             <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Actions</h3>
             <div class="space-y-3">
-                <form method="POST" action="{{ route('admin.companies.toggle', $company) }}">
+                <form method="POST" action="{{ route('admin.companies.toggle', $company->id) }}">
                     @csrf @method('PATCH')
                     <button type="submit"
                             class="w-full justify-center {{ $company->is_active ? 'btn-danger' : 'btn-primary' }}">
@@ -147,7 +147,7 @@
         {{-- Change plan --}}
         <div class="card p-5">
             <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Change Plan</h3>
-            <form method="POST" action="{{ route('admin.companies.plan', $company) }}"
+            <form method="POST" action="{{ route('admin.companies.plan', $company->id) }}"
                   class="space-y-3">
                 @csrf @method('PATCH')
                 <select name="plan_id" class="form-input w-full">

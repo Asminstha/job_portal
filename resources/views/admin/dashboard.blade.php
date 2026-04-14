@@ -76,7 +76,7 @@
                 <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }}"
                      class="w-9 h-9 rounded-lg object-cover border border-gray-200 dark:border-gray-700 flex-shrink-0">
                 <div class="flex-1 min-w-0">
-                    <a href="{{ route('admin.companies.show', $company) }}"
+                    <a href="{{ route('admin.companies.show', $company->id) }}"
                        class="text-sm font-medium text-gray-900 dark:text-white hover:text-brand-600 truncate block">
                         {{ $company->name }}
                     </a>

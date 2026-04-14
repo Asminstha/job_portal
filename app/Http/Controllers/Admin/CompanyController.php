@@ -42,34 +42,44 @@ class CompanyController extends Controller
         return view('admin.companies.index', compact('companies', 'plans'));
     }
 
-    public function show(Company $company): View
+    public function show(string $id): View
     {
-        $company->load(['plan', 'users', 'subscriptions.plan']);
+        $company = Company::with(['plan', 'users', 'subscriptions.plan'])
+            ->findOrFail($id);
 
         $stats = [
             'total_jobs'   => $company->jobs()->withoutGlobalScopes()->count(),
-            'active_jobs'  => $company->jobs()->withoutGlobalScopes()->where('status','active')->count(),
+            'active_jobs'  => $company->jobs()->withoutGlobalScopes()
+                                ->where('status', 'active')->count(),
             'applications' => \App\Models\Application::withoutGlobalScopes()
                                 ->where('company_id', $company->id)->count(),
         ];
 
-        $recentJobs = $company->jobs()->withoutGlobalScopes()
+        $recentJobs = $company->jobs()
+            ->withoutGlobalScopes()
             ->with('category')
-            ->latest()->take(5)->get();
+            ->latest()
+            ->take(5)
+            ->get();
 
-        return view('admin.companies.show', compact('company', 'stats', 'recentJobs'));
+        return view('admin.companies.show',
+            compact('company', 'stats', 'recentJobs'));
     }
 
-    public function toggle(Company $company): RedirectResponse
+    public function toggle(string $id): RedirectResponse
     {
+        $company = Company::findOrFail($id);
         $company->update(['is_active' => ! $company->is_active]);
 
         $status = $company->is_active ? 'activated' : 'suspended';
-        return back()->with('success', "Company {$company->name} has been {$status}.");
+        return back()->with('success',
+            "Company {$company->name} has been {$status}.");
     }
 
-    public function changePlan(Request $request, Company $company): RedirectResponse
+    public function changePlan(Request $request, string $id): RedirectResponse
     {
+        $company = Company::findOrFail($id);
+
         $request->validate([
             'plan_id' => ['required', 'exists:plans,id'],
         ]);
@@ -80,6 +90,7 @@ class CompanyController extends Controller
             'subscription_status' => 'active',
         ]);
 
-        return back()->with('success', "Plan changed to {$plan->name} for {$company->name}.");
+        return back()->with('success',
+            "Plan changed to {$plan->name} for {$company->name}.");
     }
 }
