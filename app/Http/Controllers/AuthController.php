@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use App\Services\NotificationService;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -169,4 +170,51 @@ app(NotificationService::class)->newCompanyRegistered(
         }
         return $slug;
     }
+
+
+// ── Forgot password form ───────────────────────────────
+public function showForgotPassword(): View
+{
+    return view('auth.forgot-password');
+}
+
+// ── Send reset link ────────────────────────────────────
+public function sendResetLink(Request $request): RedirectResponse
+{
+    $request->validate(['email' => ['required', 'email']]);
+
+    $status = Password::sendResetLink($request->only('email'));
+
+    return $status === Password::RESET_LINK_SENT
+        ? back()->with('success', 'Password reset link sent to your email.')
+        : back()->withErrors(['email' => __($status)]);
+}
+
+// ── Show reset form ────────────────────────────────────
+public function showResetPassword(Request $request): View
+{
+    return view('auth.reset-password', ['token' => $request->route('token')]);
+}
+
+// ── Handle password reset ──────────────────────────────
+public function resetPassword(Request $request): RedirectResponse
+{
+    $request->validate([
+        'token'    => ['required'],
+        'email'    => ['required', 'email'],
+        'password' => ['required', 'min:8', 'confirmed'],
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill(['password' => Hash::make($password)])->save();
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('success', 'Password reset successfully. Please log in.')
+        : back()->withErrors(['email' => [__($status)]]);
+}
+
 }

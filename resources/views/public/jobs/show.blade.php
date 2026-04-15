@@ -1,11 +1,11 @@
 @extends('layouts.public')
 @section('seo')
-    <x-seo
-        title="{{ $job->title }} at {{ $job->company->name }} — JobsNepal"
-        description="{{ Str::limit($job->description, 155) }}"
-        type="article"
-        image="{{ $job->company->logo ? asset('storage/'.$job->company->logo) : null }}"
-    />
+    <x-seo title="{{ $job->title }} at {{ $job->company->name }} — {{ $job->city ?? 'Nepal' }} — JobsNepal"
+        description="{{ $job->company->name }} is hiring a {{ $job->title }}. {{ $job->typeLabel() }} position
+            {{ $job->locationLabel() !== 'Remote' ? 'in ' . ($job->city ?? 'Nepal') : '(Remote)' }}.
+            Salary: {{ $job->salaryDisplay() }}. Apply now on JobsNepal."
+        image="{{ $job->company->logo ? asset('storage/' . $job->company->logo) : null }}"
+        url="{{ route('jobs.show', $job->slug) }}" type="article" />
 @endsection
 @section('title', $job->title . ' at ' . $job->company->name)
 
@@ -149,8 +149,8 @@
                                     <svg class="w-7 h-7 text-green-600 dark:text-green-400" fill="currentColor"
                                         viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1
-                                                 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0
-                                                 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                         1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0
+                                                         00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
                                 <h3 class="font-semibold text-gray-900 dark:text-white mb-1">
@@ -170,7 +170,8 @@
                                 Apply for this Position
                             </h3>
                             <form method="POST" action="{{ route('jobs.apply', $job->slug) }}"
-                                enctype="multipart/form-data" class="space-y-4">
+                                enctype="multipart/form-data" x-data="{ submitting: false }" @submit="submitting = true"
+                                class="space-y-4">
                                 @csrf
                                 <div>
                                     <label class="form-label">Cover Letter
@@ -200,8 +201,10 @@
                                 @error('resume')
                                     <p class="form-error">{{ $message }}</p>
                                 @enderror
-                                <button type="submit" class="btn-primary w-full justify-center py-3">
-                                    Submit Application
+                                <button type="submit" :disabled="submitting"
+                                    class="btn-primary w-full justify-center py-3 disabled:opacity-60 disabled:cursor-not-allowed">
+                                    <span x-show="!submitting">Submit Application</span>
+                                    <span x-show="submitting" x-cloak>Submitting...</span>
                                 </button>
                             </form>
                         @elseif(auth()->check() && auth()->user()->isCompanyMember())

@@ -74,6 +74,22 @@
                           hover:text-gray-900 dark:hover:text-white transition-colors">
                         Pricing
                     </a>
+                    <a href="{{ route('about') }}"
+                        class="px-3 py-2 rounded-lg text-sm font-medium
+          text-gray-600 dark:text-gray-400
+          hover:bg-gray-100 dark:hover:bg-gray-800
+          hover:text-gray-900 dark:hover:text-white transition-colors
+          {{ request()->routeIs('about') ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' : '' }}">
+                        About
+                    </a>
+                    <a href="{{ route('contact') }}"
+                        class="px-3 py-2 rounded-lg text-sm font-medium
+          text-gray-600 dark:text-gray-400
+          hover:bg-gray-100 dark:hover:bg-gray-800
+          hover:text-gray-900 dark:hover:text-white transition-colors
+          {{ request()->routeIs('contact') ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' : '' }}">
+                        Contact
+                    </a>
                 </div>
 
                 {{-- Right actions --}}
@@ -153,7 +169,7 @@
                                           hover:bg-gray-50 dark:hover:bg-gray-800">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0
-                                                                 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                                                             00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                                         </svg>
                                         Company Dashboard
                                     </a>
@@ -186,8 +202,9 @@
                                                    hover:bg-red-50 dark:hover:bg-red-900/20">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3
-                                                                     3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3
+                                                                                 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                             </svg>
                                             Sign out
                                         </button>
@@ -241,6 +258,10 @@
                 class="block px-3 py-2 rounded-lg text-sm font-medium
                   text-gray-700 dark:text-gray-300
                   hover:bg-gray-100 dark:hover:bg-gray-800">Pricing</a>
+            <a href="{{ route('about') }}"
+                class="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">About</a>
+            <a href="{{ route('contact') }}"
+                class="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Contact</a>
             @guest
                 <div class="pt-2 border-t border-gray-100 dark:border-gray-800 flex gap-2">
                     <a href="{{ route('login') }}" class="btn-secondary flex-1 justify-center text-sm">Sign in</a>
@@ -357,9 +378,11 @@
                     justify-between items-center gap-3 text-sm text-gray-400 dark:text-gray-500">
                 <p>&copy; {{ date('Y') }} JobsNepal. Built with passion in Nepal.</p>
                 <div class="flex gap-4">
-                    <a href="#" class="hover:text-brand-600 transition-colors">Privacy</a>
-                    <a href="#" class="hover:text-brand-600 transition-colors">Terms</a>
-                    <a href="#" class="hover:text-brand-600 transition-colors">Contact</a>
+                    <a href="{{ route('about') }}" class="hover:text-brand-600 transition-colors">About</a>
+                    <a href="{{ route('contact') }}" class="hover:text-brand-600 transition-colors">Contact</a>
+                    <a href="{{ route('pricing') }}" class="hover:text-brand-600 transition-colors">Pricing</a>
+                    <a href="/privacy" class="hover:text-brand-600 transition-colors">Privacy</a>
+                    <a href="/terms" class="hover:text-brand-600 transition-colors">Terms</a>
                 </div>
             </div>
         </div>

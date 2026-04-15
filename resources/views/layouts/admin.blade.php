@@ -31,7 +31,7 @@
 
         {{-- Logo --}}
         <div class="flex items-center justify-between h-16 px-5 border-b border-gray-800">
-            <a href="{{ route('home') }}" class="flex items-center gap-2">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
                 <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

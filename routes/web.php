@@ -11,7 +11,8 @@ Route::get('/',            [HomeController::class, 'index'])->name('home');
 Route::get('/jobs',        [PublicJobController::class, 'index'])->name('jobs.index');
 Route::get('/jobs/{slug}', [PublicJobController::class, 'show'])->name('jobs.show');
 Route::post('/jobs/{slug}/apply', [PublicJobController::class, 'apply'])
-    ->middleware('auth')->name('jobs.apply');
+    ->middleware('auth')
+    ->name('jobs.apply');
 Route::get('/companies',          [PublicCompanyController::class, 'index'])->name('companies.index');
 Route::get('/companies/{slug}',   [PublicCompanyController::class, 'show'])->name('companies.show');
 Route::get('/pricing',            fn() => view('public.pricing'))->name('pricing');
@@ -51,3 +52,25 @@ Route::get('/sitemap.xml', function () {
     return response()->view('sitemap', compact('jobs', 'companies'))
         ->header('Content-Type', 'application/xml');
 });
+
+
+// Password reset
+Route::middleware('guest')->group(function () {
+    Route::get('/forgot-password',        [AuthController::class, 'showForgotPassword'])->name('password.request');
+    Route::post('/forgot-password',       [AuthController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
+    Route::post('/reset-password',        [AuthController::class, 'resetPassword'])->name('password.update');
+});
+
+
+//  ccontact page
+Route::get('/contact', fn() => view('public.contact'))->name('contact');
+Route::post('/contact', [App\Http\Controllers\Public\ContactController::class, 'send'])->name('contact.send');
+
+// about page
+
+Route::get('/about', fn() => view('public.about'))->name('about');
+
+
+Route::get('/privacy', fn() => view('public.privacy'))->name('privacy');
+Route::get('/terms',   fn() => view('public.terms'))->name('terms');
