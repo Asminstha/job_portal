@@ -138,7 +138,7 @@ class JobController extends Controller
 
         $request->validate([
             'cover_letter' => ['nullable', 'string', 'max:3000'],
-            'resume'       => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
+            'resume'       => ['required', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
         ]);
 
         $resumePath = null;

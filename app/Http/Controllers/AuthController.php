@@ -85,6 +85,7 @@ class AuthController extends Controller
                     'subscription_status' => 'trial',
                     'trial_ends_at'       => now()->addDays(14),
                     'plan_id'             => Plan::where('slug', 'free')->first()?->id,
+                    'is_active'           => true,
                 ]);
 
                 // Create company admin user

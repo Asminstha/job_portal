@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="max-w-3xl">
+<div class="w-full">
     <form method="POST" action="{{ route('company.profile.update') }}" enctype="multipart/form-data">
         @csrf @method('PUT')
 

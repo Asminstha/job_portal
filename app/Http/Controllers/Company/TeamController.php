@@ -22,29 +22,33 @@ class TeamController extends Controller
         return view('company.team.index', compact('members'));
     }
 
-    public function invite(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name'  => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'role'  => ['required', 'in:recruiter,company_admin'],
+   public function invite(Request $request): RedirectResponse
+{
+    $request->validate([
+        'name'  => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'unique:users,email'],
+        'role'  => ['required', 'in:recruiter,company_admin'],
+    ]);
+
+    $tempPassword = 'Welcome@' . rand(1000, 9999);
+
+    User::create([
+        'company_id' => auth()->user()->company_id,
+        'name'       => $request->name,
+        'email'      => $request->email,
+        'password'   => \Hash::make($tempPassword),
+        'role'       => $request->role,
+        'is_active'  => true,
+    ]);
+
+    // Store in session so it shows persistently until dismissed
+    return back()
+        ->with('team_invite_success', [
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => $tempPassword,
         ]);
-
-        $tempPassword = Str::random(12);
-
-        User::create([
-            'company_id' => auth()->user()->company_id,
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'password'   => Hash::make($tempPassword),
-            'role'       => $request->role,
-            'is_active'  => true,
-        ]);
-
-        return back()->with('success',
-            "Team member {$request->name} added. Temporary password: {$tempPassword} — share this with them securely.");
-    }
-
+}
     public function remove(string $userId): RedirectResponse
     {
         $user = User::where('company_id', auth()->user()->company_id)

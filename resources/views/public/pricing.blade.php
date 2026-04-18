@@ -91,7 +91,7 @@
                     'analytics'   => true,
                     'featured'    => true,
                     'cta'         => 'Contact Sales',
-                    'cta_link'    => 'mailto:sales@jobsnepal.com',
+                    'cta_link'    => route('contact'),
                     'popular'     => false,
                 ],
             ] as $plan)
@@ -241,7 +241,7 @@
                class="px-8 py-3.5 bg-white text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition-colors">
                 Start Free Trial
             </a>
-            <a href="mailto:sales@jobsnepal.com"
+            <a href="{{ route('contact') }}"
                class="px-8 py-3.5 border-2 border-white/60 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
                 Contact Sales
             </a>

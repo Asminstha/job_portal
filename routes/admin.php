@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\CategoryController;
+
 
 Route::prefix('admin')
     ->name('admin.')
@@ -38,4 +40,13 @@ Route::prefix('admin')
         Route::get('/subscriptions',                          [SubscriptionController::class, 'index'])->name('subscriptions.index');
         Route::patch('/subscriptions/{id}/approve',           [SubscriptionController::class, 'approve'])->name('subscriptions.approve');
         Route::patch('/subscriptions/{id}/reject',            [SubscriptionController::class, 'reject'])->name('subscriptions.reject');
+
+// Categories
+Route::get('/categories',              [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/create',       [CategoryController::class, 'create'])->name('categories.create');
+Route::post('/categories',             [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{id}/edit',    [CategoryController::class, 'edit'])->name('categories.edit');
+Route::put('/categories/{id}',         [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{id}',      [CategoryController::class, 'destroy'])->name('categories.destroy');
+
     });

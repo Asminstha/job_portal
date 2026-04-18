@@ -45,17 +45,44 @@ class Company extends Model
         return $this->hasMany(Subscription::class);
     }
 
-    public function activeSubscription()
-    {
-        return $this->hasOne(Subscription::class)->where('status','active')->latestOfMany();
-    }
+    public function activeSubscription(): \Illuminate\Database\Eloquent\Relations\HasOne
+{
+    return $this->hasOne(Subscription::class)
+                ->where('status', 'active')
+                ->latestOfMany();
+}
 
     // ── Helpers ────────────────────────────────────────────────
-    public function activePlan(): Plan
-    {
-        return $this->plan ?? Plan::where('slug','free')->first();
+  public function activePlan(): Plan
+{
+    // If company has a plan assigned, return it
+    if ($this->plan_id && $this->plan) {
+        return $this->plan;
     }
 
+    // Otherwise find or create the free plan
+    $freePlan = Plan::where('slug', 'free')->first();
+
+    if (! $freePlan) {
+        // Create free plan on the fly if it doesn't exist
+        $freePlan = Plan::create([
+            'name'                  => 'Free',
+            'slug'                  => 'free',
+            'description'           => 'Free trial plan',
+            'price_monthly'         => 0,
+            'price_yearly'          => 0,
+            'max_jobs'              => 3,
+            'max_recruiters'        => 1,
+            'featured_jobs_allowed' => false,
+            'has_analytics'         => false,
+            'has_ats'               => true,
+            'is_active'             => true,
+            'sort_order'            => 1,
+        ]);
+    }
+
+    return $freePlan;
+}
     public function isOnTrial(): bool
     {
         return $this->subscription_status === 'trial'

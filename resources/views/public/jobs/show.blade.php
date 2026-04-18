@@ -182,7 +182,7 @@
                                 </div>
                                 <div>
                                     <label class="form-label">Resume
-                                        <span class="text-gray-400 font-normal">(optional)</span>
+                                        <span class="text-gray-400 font-normal">(@required(true))</span>
                                     </label>
                                     <input type="file" name="resume" accept=".pdf,.doc,.docx"
                                         class="block w-full text-sm text-gray-500 dark:text-gray-400

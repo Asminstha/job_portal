@@ -1,4 +1,9 @@
 @extends('layouts.public')
+@section('seo')
+    <x-seo title="JobsNepal — Find Your Dream Job in Nepal"
+        description="Browse {{ $totalJobs }}+ active jobs from {{ $totalCompanies }}+ companies in Nepal. Free for job seekers. Apply in seconds." />
+@endsection
+
 @section('title', 'Terms of Service — JobsNepal')
 
 @section('content')
